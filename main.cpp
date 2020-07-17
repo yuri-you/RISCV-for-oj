@@ -30,7 +30,6 @@ int main() {
     MEM doc;
     fun(doc);
     doc.dMEM();//·ÀÖ¹¶à´ÎÎö¹¹
-    predict_result();
     return 0;
 }
 void fun(MEM doc) {
