@@ -39,7 +39,7 @@ int main() {
     //while(WB(tmp3));
     fun(doc);
     doc.dMEM();//·ÀÖ¹¶à´ÎÎö¹¹
-    predict_result();
+    //predict_result();
     return 0;
 }
 void fun(MEM doc) {
@@ -48,7 +48,6 @@ void fun(MEM doc) {
     ID tmp1;
     EX tmp2;
     MA tmp3;
-    int a = 0;
     do {
         number = 0;
         if (!store4.empty()) {
