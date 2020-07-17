@@ -25,9 +25,12 @@
 	unsigned alltimes = 0, righttimes = 0;
 	bool popstore = false;
 	bool idm[34] = { false };
-	int mam[34] = { false };
+	bool mam[34] = { false };
 	void clearidm() {
 		memset(idm, 0, 34 * sizeof(bool));
+	}
+	void clearmam() {
+		memset(mam, 0, 34 * sizeof(bool));
 	}
 	unsigned b000 = 0, b001 = 0, b010 = 0, b011 = 0, b100 = 0, b101 = 0, b110 = 0, b111 = 0, lastrecord[3] = { 0,1,0 };
 	void predict_result() {
