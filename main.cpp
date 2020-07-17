@@ -25,21 +25,14 @@ void now(command other) {
     std::cout << std::endl;
 }
 int main() {
-    //char name[100];
-    //std::cin >> name;
+    char name[100];
+    std::cin >> name;
     store_ptr = &(store3);
     store_other = &(store3_other);
-    //name = "array_test1.data";
-    MEM doc;
-    //do {
-    //    tmp1 = doc.fetch();
-    //    tmp2 = tmp1;
-    //    tmp3 = tmp2;
-    //}
-    //while(WB(tmp3));
+    MEM doc(name);
     fun(doc);
     doc.dMEM();//防止多次析构
-    //predict_result();
+    predict_result();
     return 0;
 }
 void fun(MEM doc) {
@@ -48,6 +41,7 @@ void fun(MEM doc) {
     ID tmp1;
     EX tmp2;
     MA tmp3;
+    int a = 0;
     do {
         number = 0;
         if (!store4.empty()) {
@@ -56,37 +50,31 @@ void fun(MEM doc) {
             --wait_for_store[tmp3.rd];
             ++number;
             WB(tmp3);
-            //now(tmp3.op);
         }
         if (!(*store_ptr).empty()) {
             while (!((*store_ptr).empty())) {//让不用MA的直接跳过
                 tmp2 = (*store_ptr).front();
+                switch (tmp2.op) {
+                case _LH:case _LB:case _LW:case _LBU:case _LHU:mam[tmp1.rd] = true; break;
+                }
                 if (tmp2.ok())store4.push_back(tmp2);//如果会产生冒险就不跳过MA
                 else (*store_other).push_back(tmp2);
                 (*store_ptr).pop_front();
             }
+            clearmam();
             std::deque<EX>* tmp = store_ptr;
             store_ptr = store_other;
             store_other = tmp;//交换store_ptr和store_other
-            if (MAtime)--MAtime;
-            else {
-                if (!(*store_ptr).empty()) {
-                    tmp2 = (*store_ptr).front();
-                    (*store_ptr).pop_front();
-                    store4.push_back(tmp2);
-                    switch (tmp2.op) {
-                    case _LH:case _LB:case _LW:case _LBU:case _LHU:--mam[tmp1.rd]; break;
-                    }
-                }
+            if (!(*store_ptr).empty()) {
+                tmp2 = (*store_ptr).front();
+                (*store_ptr).pop_front();
+                store4.push_back(tmp2);
             }
             ++number;
         }
         if (!store2.empty()) {
             tmp1 = store2.front();
             (*store_ptr).push_back(tmp1);
-            switch (tmp1.op) {
-            case _LH:case _LB:case _LW:case _LBU:case _LHU:++mam[tmp1.rd]; break;
-            }
             store2.pop_front();
             ++number;
         }
@@ -121,6 +109,7 @@ void fun(MEM doc) {
             ++number;
         }
         if (!finish&&(pc_of_jump==0||is_pc_forwarding)) {
+            ++a;
             tmp0 = doc.fetch();
             store1.push_back(tmp0);
             ++number;
