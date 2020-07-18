@@ -30,7 +30,6 @@ int main() {
     MEM doc;
     fun(doc);
     doc.dMEM();//·ÀÖ¹¶à´ÎÎö¹¹
-    predict_result();
     return 0;
 }
 void fun(MEM doc) {
@@ -39,7 +38,6 @@ void fun(MEM doc) {
     ID tmp1;
     EX tmp2;
     MA tmp3;
-    int a = 0;
     do {
         number = 0;
         if (!store4.empty()) {
@@ -139,7 +137,6 @@ void fun(MEM doc) {
         //    ++number;
         //}
         if (!finish&&(pc_of_jump==0||is_pc_forwarding)) {
-            ++a;
             tmp0 = doc.fetch();
             store1.push_back(tmp0);
             ++number;
