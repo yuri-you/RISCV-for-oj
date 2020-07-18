@@ -71,14 +71,12 @@ public:
 	MEM() {
 		size = 1 << 20;
 		memory = new unsigned[size];
-		//fileptr = freopen(name, "r", stdin);
 		memset(memory, 0, 4 * size);
 		read_data();
 		pc = 0;
 	}
 	void dMEM() { 
 		delete[]memory; 
-		//fclose(fileptr);
 	}
 	//template<class T>
 	//T fetch_data(uint place,T type_of_function){
@@ -87,6 +85,11 @@ public:
 	IF fetch();
 };
 bool IF::able_to_read() {
+	if (!first) {
+		switch (op) {
+		case _LH:case _LB:case _LW:case _LBU:case _LHU:return false;
+		}
+	}
 	if (rst1 != 33) {
 		if (idm[rst1] || wait_for_store[rst1])return false;
 	}

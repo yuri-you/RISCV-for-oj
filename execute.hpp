@@ -9,6 +9,9 @@ struct EX {
 	unsigned rd, rpc, rst2;
 	MEM* document;
 	bool ok() {
+		switch (op) {
+		case _LH:case _LB:case _LW:case _LBU:case _LHU:case _SB:case _SW:case _SH:return false;
+		}
 		if (rd != 33) {
 			if (mam[rd])return false;
 		}

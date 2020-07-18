@@ -25,11 +25,14 @@ void now(command other) {
     std::cout << std::endl;
 }
 int main() {
+    char name[100];
+    std::cin >> name;
     store_ptr = &(store3);
     store_other = &(store3_other);
-    MEM doc;
+    MEM doc(name);
     fun(doc);
     doc.dMEM();//防止多次析构
+    predict_result();
     return 0;
 }
 void fun(MEM doc) {
@@ -47,6 +50,7 @@ void fun(MEM doc) {
             --wait_for_store[tmp3.rd];
             ++number;
             WB(tmp3);
+            //now(tmp3.op);
         }
         if (!(*store_ptr).empty()) {
             while (!((*store_ptr).empty())) {//让不用MA的直接跳过
@@ -69,6 +73,16 @@ void fun(MEM doc) {
             }
             ++number;
         }
+        //if (!store3.empty()) {
+        //    if (MAtime)--MAtime;
+        //    else {
+        //        tmp2 = store3.front();
+        //        store3.pop_front();
+        //        if (tmp2.op != _NOT_JUMP)store4.push_back(tmp2);
+        //        //else now(tmp2.op);
+        //    }
+        //    ++number;
+        //}
         if (!store2.empty()) {
             tmp1 = store2.front();
             (*store_ptr).push_back(tmp1);
@@ -84,7 +98,9 @@ void fun(MEM doc) {
                 }
                 store1.pop_back();
             }
+            first = true;
             while (!store1.empty()&&!(store1.front().able_to_read())) {
+                first = false;
                 tmp0 = store1.front();
                 idm[tmp0.rst1]=true;
                 idm[tmp0.rst2]=true;
@@ -105,6 +121,25 @@ void fun(MEM doc) {
             clearidm();
             ++number;
         }
+        //if (!store1.empty()) {
+        //    if ((store1.front()).able_to_read()) {
+        //        if (popstore) {
+        //            popstore = false;
+        //            switch ((store1.back()).op) {
+        //            case _BEQ:case _BLT:case _BNE:case _BGE:case _BLTU:case _BGEU:
+        //            case _JAL:case _JALR:--pc_of_jump;
+        //            }
+        //            store1.pop_back();
+        //        }
+        //        if (!store1.empty()) {
+        //            tmp0 = store1.front();
+        //            store1.pop_front();
+        //            store2.push_back(tmp0);
+        //            ++wait_for_store[tmp0.rd];
+        //        }
+        //    }
+        //    ++number;
+        //}
         if (!finish&&(pc_of_jump==0||is_pc_forwarding)) {
             ++a;
             tmp0 = doc.fetch();
