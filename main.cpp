@@ -25,11 +25,9 @@ void now(command other) {
     std::cout << std::endl;
 }
 int main() {
-    char name[100];
-    std::cin >> name;
     store_ptr = &(store3);
     store_other = &(store3_other);
-    MEM doc(name);
+    MEM doc;
     fun(doc);
     doc.dMEM();//·ÀÖ¹¶à´ÎÎö¹¹
     predict_result();
