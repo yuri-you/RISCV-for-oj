@@ -69,7 +69,7 @@ private:
 	}
 public:
 	MEM() {
-		size = 1 << 20;
+		size = 1 << 28;
 		memory = new unsigned[size];
 		memset(memory, 0, 4 * size);
 		read_data();

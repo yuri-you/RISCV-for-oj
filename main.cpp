@@ -9,6 +9,11 @@
 #include"write_back.hpp"
 using std::cin;
 using std::cout;
+int number;
+IF tmp0,out;
+ID tmp1;
+EX tmp2;
+MA tmp3;
 std::deque<IF> store1;
 std::deque<ID> store2;
 std::deque<EX> store3;
@@ -24,20 +29,25 @@ void now(command other) {
     for (int i = 0; i < 32; ++i)std::cout << std::dec << x[i] << ' ';
     std::cout << std::endl;
 }
+void dealout() {
+    tmp1 = out;
+    tmp2 = tmp1;
+    tmp3 = tmp2;
+    WB(tmp3);
+    return;
+}
 int main() {
     store_ptr = &(store3);
     store_other = &(store3_other);
     MEM doc;
     fun(doc);
     doc.dMEM();//·ÀÖ¹¶à´ÎÎö¹¹
+    dealout();
+    predict_result();
     return 0;
 }
 void fun(MEM doc) {
-    int number;
-    IF tmp0;
-    ID tmp1;
-    EX tmp2;
-    MA tmp3;
+    int a = 0;
     do {
         number = 0;
         if (!store4.empty()) {
@@ -137,8 +147,14 @@ void fun(MEM doc) {
         //    ++number;
         //}
         if (!finish&&(pc_of_jump==0||is_pc_forwarding)) {
+            ++a;
             tmp0 = doc.fetch();
-            store1.push_back(tmp0);
+            if (tmp0.op == _OUT) {
+                out = tmp0;
+            }
+            else {
+                store1.push_back(tmp0);
+            }
             ++number;
         }
     } while (!finish||number);
